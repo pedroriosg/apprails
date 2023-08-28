@@ -1,11 +1,20 @@
-# Utiliza una imagen base con soporte para servir contenido estático
-FROM nginx:alpine
+# Use an official Ruby runtime as a parent image
+FROM ruby:3.1.0
 
-# Copia el archivo HTML al directorio de contenido estático de Nginx
-COPY index.html /usr/share/nginx/html
+# Set the working directory in the container
+WORKDIR /app
 
-# Expone el puerto 80 para que pueda ser accesible desde el host
-EXPOSE 80
+# Copy the Gemfile and Gemfile.lock into the container
+COPY Gemfile Gemfile.lock ./
 
-# Comando para iniciar el servidor Nginx al ejecutar el contenedor
-CMD ["nginx", "-g", "daemon off;"]
+# Install dependencies
+RUN bundle install
+
+# Copy the rest of the application code into the container
+COPY . .
+
+# Expose port 3000 to the Docker host
+EXPOSE 3000
+
+# Start the Rails server
+CMD ["rails", "server", "-b", "0.0.0.0"]
