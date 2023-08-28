@@ -1,0 +1,85 @@
+openapi: '3.0.2'
+info:
+  title: Apptrevete
+  description: API para una plataforma de profesores y alumnos
+  contact:
+    email: info@fundacionatrevete.cl
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+
+paths:
+
+  /example/test:
+    get:
+      tags:
+        - Example
+      summary: Endpoint de ejemplo
+      description: Endpoint de ejemplo para mostrar manejo de erorres y uso de endpoints
+      operationId: api.example.test.get
+      responses:
+        200:
+          description: Operacion existosa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessStandardResponse'
+        404:
+          description: Usuario no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorStandardResponse'
+  
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login de usuario
+      description: Login de usuario
+      operationId: api.auth.login.post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: Operacion existosa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessStandardResponse'
+        404:
+          description: Usuario no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorStandardResponse'
+
+components:
+  schemas:
+    SuccessStandardResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+
+    ErrorStandardResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            type: object
